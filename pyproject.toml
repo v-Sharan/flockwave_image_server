@@ -1,0 +1,49 @@
+[tool.poetry]
+
+# Change this to the name of your own extension
+name = "flockwave-image-server"
+version = "1.0.0"
+description = "Template project for Skybrush Server extension modules"
+authors = ["Tamas Nepusz <ntamas@gmail.com>"]
+license = "MIT"
+packages = [
+  # Change this to the name of the folder in src/ containing your extension
+  { include = "flockwave_image_server", from = "src" }
+]
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "fury"
+url = "https://pypi.fury.io/skybrush/"
+priority = "supplemental"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^3.1.0"
+hypercorn = "^0.17.3"
+
+[tool.poetry.group.dev.dependencies]
+flockwave-server = { git = "https://github.com/skybrush-io/skybrush-server", branch = "main",tag="2.18.1" }
+
+[tool.poetry.plugins]
+
+[tool.poetry.plugins."skybrush.server.ext"]
+# Change the key below to the name of the extension that you want to use in
+# configuration files, and the value to the name of the Python module that
+# contains the extension code
+image_server = "flockwave_image_server"
+
+[tool.poetry.scripts]
+skybrushd = "flockwave.server.launcher:start"
+
+[tool.ruff]
+ignore = ["B905", "C901", "E402", "E501"]
+line-length = 80
+select = ["B", "C", "E", "F", "W"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
